@@ -24,7 +24,7 @@ class Legend extends ComponentBase {
 
   /// Are the legend labels/colors a custom value or auto calculated? If false,
   /// then it's auto, if true, then custom. default false (automatic legend)
-  bool _isLegendCustom = false;
+  bool _isLegendCustom = true; // WARNING
 
   LegendHorizontalAlignment _horizontalAlignment =
       LegendHorizontalAlignment.LEFT;
