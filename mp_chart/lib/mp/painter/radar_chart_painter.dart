@@ -50,6 +50,8 @@ class RadarChartPainter extends PieRadarChartPainter<RadarData> {
 
   final double _iconSize;
 
+  final double _distance;
+
   ////////////
   YAxisRendererRadarChart _yAxisRenderer;
   XAxisRendererRadarChart _xAxisRenderer;
@@ -71,6 +73,8 @@ class RadarChartPainter extends PieRadarChartPainter<RadarData> {
   List<ui.Image> get icons => _icons;
 
   double get iconSize => _iconSize;
+
+  double get distance => _distance;
 
 
   RadarChartPainter(
@@ -108,7 +112,9 @@ class RadarChartPainter extends PieRadarChartPainter<RadarData> {
       YAxis yAxis,
       Color backgroundColor,
       List<ui.Image> icons,
-      double iconSize)
+      double iconSize,
+      double distance,
+      )
       : _webLineWidth = webLineWidth,
         _innerWebLineWidth = innerWebLineWidth,
         _webColor = webColor,
@@ -119,6 +125,7 @@ class RadarChartPainter extends PieRadarChartPainter<RadarData> {
         _yAxis = yAxis,
         _icons = icons,
         _iconSize = iconSize,
+        _distance = distance,
         super(
           data,
           animator,
@@ -183,7 +190,7 @@ class RadarChartPainter extends PieRadarChartPainter<RadarData> {
       _xAxisRenderer.computeAxis(xAxis.axisMinimum, xAxis.axisMaximum, false);
 
 //    _xAxisRenderer.renderAxisLabels(canvas);
-    _xAxisRenderer.renderAxisLabelIcons(canvas, icons, iconSize);
+    _xAxisRenderer.renderAxisLabelIcons(canvas, icons, iconSize, distance);
 
     if (_drawWeb) renderer.drawExtras(canvas);
 

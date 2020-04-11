@@ -24,6 +24,7 @@ class RadarChartController extends PieRadarController<RadarChartPainter> {
   Color backgroundColor;
   List<ui.Image> labelIcons;
   double iconSize;
+  double distance;
 
   YAxisSettingFunction yAxisSettingFunction;
 
@@ -40,6 +41,7 @@ class RadarChartController extends PieRadarController<RadarChartPainter> {
     this.yAxisSettingFunction,
     this.labelIcons,
     this.iconSize,
+    this.distance,
     IMarker marker,
     Description description,
     XAxisSettingFunction xAxisSettingFunction,
@@ -136,7 +138,9 @@ class RadarChartController extends PieRadarController<RadarChartPainter> {
         yAxis,
         backgroundColor,
         labelIcons,
-        iconSize);
+        iconSize,
+        distance
+    );
   }
 
   @override

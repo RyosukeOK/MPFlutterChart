@@ -68,14 +68,10 @@ class XAxisRendererRadarChart extends XAxisRenderer {
         angleDegrees, position);
   }
 
-  void renderAxisLabelIcons(Canvas c, List<ui.Image> icons, double iconSize){
+  void renderAxisLabelIcons(Canvas c, List<ui.Image> icons, double iconSize, double distance){
 
 //    if (!xAxis.enabled || !xAxis.drawLabels) return;
 
-    axisLabelPaint = PainterUtils.create(
-        null, null, xAxis.textColor, xAxis.textSize,
-        fontWeight: xAxis.typeface?.fontWeight,
-        fontFamily: xAxis.typeface?.fontFamily);
 
     double sliceangle = _painter.getSliceAngle();
 
@@ -94,7 +90,7 @@ class XAxisRendererRadarChart extends XAxisRenderer {
 
       Utils.getPosition(
           center,
-          _painter.yAxis.axisRange * factor + xAxis.labelRotatedWidth / 2 + 10 /* R_add */,
+          _painter.yAxis.axisRange * factor + distance,
           angle,
           pOut);
 

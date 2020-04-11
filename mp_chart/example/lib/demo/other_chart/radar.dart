@@ -114,7 +114,8 @@ class OtherChartRadarState extends RadarActionState<OtherChartRadar> {
         backgroundColor: ColorUtils.DKGRAY,
         description: desc,
         labelIcons: [img1,img2,img3,img4,img5],
-        iconSize: 30
+        iconSize: 30,
+        distance: 20
     );
   }
 
