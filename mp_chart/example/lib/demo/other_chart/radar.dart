@@ -18,6 +18,7 @@ import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:mp_chart/mp/core/value_formatter/value_formatter.dart';
 import 'package:example/demo/action_state.dart';
 import 'package:example/demo/util.dart';
+import 'package:async/async.dart';
 
 class OtherChartRadar extends StatefulWidget {
   @override
@@ -28,12 +29,14 @@ class OtherChartRadar extends StatefulWidget {
 
 class OtherChartRadarState extends RadarActionState<OtherChartRadar> {
   var random = Random(1);
+  final AsyncMemoizer _asyncMemoizer = AsyncMemoizer();
 
-  @override
-  void initState() {
-    _initController();
-    _initRadarData();
-    super.initState();
+  Future<void> _init() async {
+    await _asyncMemoizer.runOnce(() async {
+      await _initController();
+      await _initRadarData();
+    });
+    return true;
   }
 
   @override
@@ -50,12 +53,27 @@ class OtherChartRadarState extends RadarActionState<OtherChartRadar> {
                 left: 0,
                 top: 0,
                 bottom: 0,
-                child: _initCandleChart()),
+                child: FutureBuilder(
+                    future: _init(),
+                    builder: (context, future) {
+                      if (!future.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else {
+                        return _initCandleChart();
+                      }
+                    })),
           ],
         ));
   }
 
-  void _initController() {
+  Future<void>  _initController() async{
+
+    var img1 = await ImageLoader.loadImage('assets/img/1.png');
+    var img2 = await ImageLoader.loadImage('assets/img/2.png');
+    var img3 = await ImageLoader.loadImage('assets/img/3.png');
+    var img4 = await ImageLoader.loadImage('assets/img/4.png');
+    var img5 = await ImageLoader.loadImage('assets/img/5.png');
+
     var desc = Description()..enabled = false;
     controller = RadarChartController(
         yAxisSettingFunction: (yAxis, controller) {
@@ -94,49 +112,44 @@ class OtherChartRadarState extends RadarActionState<OtherChartRadar> {
         webColor: ColorUtils.LTGRAY,
         webColorInner: ColorUtils.LTGRAY,
         backgroundColor: ColorUtils.DKGRAY,
-        description: desc);
+        description: desc,
+        labelIcons: [img1,img2,img3,img4,img5],
+        iconSize: 30
+    );
   }
 
-  void _initRadarData() async {
-    var img = await ImageLoader.loadImage('assets/img/star.png');
+  Future<void> _initRadarData() async {
+    var img1 = await ImageLoader.loadImage('assets/img/1.png');
+    var img2 = await ImageLoader.loadImage('assets/img/2.png');
+    var img3 = await ImageLoader.loadImage('assets/img/3.png');
+    var img4 = await ImageLoader.loadImage('assets/img/4.png');
+    var img5 = await ImageLoader.loadImage('assets/img/5.png');
     double mul = 80;
     double min = 20;
     int cnt = 5;
 
     List<RadarEntry> entries1 = List();
-    List<RadarEntry> entries2 = List();
 
     // NOTE: The order of the entries when being added to the entries array determines their position around the center of
     // the chart.
     for (int i = 0; i < cnt; i++) {
       double val1 = (random.nextDouble() * mul) + min;
-      entries1.add(RadarEntry(value: val1, icon: img));
+      entries1.add(RadarEntry(value: val1, icons: [img1,img2,img3,img4,img5], iconSize: 20));
 
-      double val2 = (random.nextDouble() * mul) + min;
-      entries2.add(RadarEntry(value: val2, icon: img));
     }
 
     RadarDataSet set1 = RadarDataSet(entries1, "Last Week");
     set1.setColor1(Color.fromARGB(255, 103, 110, 129));
     set1.setFillColor(Color.fromARGB(255, 103, 110, 129));
     set1.setDrawFilled(true);
+    set1.setDrawIcons(true);
     set1.setFillAlpha(180);
     set1.setLineWidth(2);
     set1.setDrawHighlightCircleEnabled(true);
     set1.setDrawHighlightIndicators(false);
 
-    RadarDataSet set2 = RadarDataSet(entries2, "This Week");
-    set2.setColor1(Color.fromARGB(255, 121, 162, 175));
-    set2.setFillColor(Color.fromARGB(255, 121, 162, 175));
-    set2.setDrawFilled(true);
-    set2.setFillAlpha(180);
-    set2.setLineWidth(2);
-    set2.setDrawHighlightCircleEnabled(true);
-    set2.setDrawHighlightIndicators(false);
-
     List<IRadarDataSet> sets = List();
     sets.add(set1);
-    sets.add(set2);
 
     controller.data = RadarData.fromList(sets);
     controller.data
@@ -152,7 +165,7 @@ class OtherChartRadarState extends RadarActionState<OtherChartRadar> {
     var radarChart = RadarChart(controller);
     controller.animator
       ..reset()
-      ..animateXY2(1400, 1400, Easing.EaseInOutQuad);
+      ..animateY1(1400);
     return radarChart;
   }
 }

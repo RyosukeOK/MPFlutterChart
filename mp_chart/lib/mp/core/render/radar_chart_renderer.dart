@@ -181,15 +181,16 @@ class RadarChartRenderer extends LineRadarRenderer {
               dataSet.getValueTextColor2(j));
         }
 
-        if (entry.mIcon != null && dataSet.isDrawIconsEnabled()) {
+//        if (entry.mIcon != null && dataSet.isDrawIconsEnabled()) {
+        if (dataSet.isDrawIconsEnabled()) {
           Utils.getPosition(center, entry.y * factor * phaseY + iconsOffset.y,
               sliceangle * j * phaseX + _painter.getRotationAngle(), pIcon);
 
           //noinspection SuspiciousNameCombination
           pIcon.y += iconsOffset.x;
 
-          CanvasUtils.drawImage(c, Offset(pIcon.x, pIcon.y), entry.mIcon,
-              Size(15, 15), drawPaint);
+          CanvasUtils.drawImage(c, Offset(pIcon.x, pIcon.y), entry.icons[j],
+              Size(entry.iconSize, 30), drawPaint);
         }
       }
 

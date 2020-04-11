@@ -10,6 +10,7 @@ import 'package:mp_chart/mp/core/functions.dart';
 import 'package:mp_chart/mp/core/marker/i_marker.dart';
 import 'package:mp_chart/mp/core/marker/radar_chart_marker.dart';
 import 'package:mp_chart/mp/painter/radar_chart_painter.dart';
+import 'dart:ui' as ui;
 
 class RadarChartController extends PieRadarController<RadarChartPainter> {
   double webLineWidth;
@@ -21,6 +22,8 @@ class RadarChartController extends PieRadarController<RadarChartPainter> {
   int skipWebLineCount;
   YAxis yAxis;
   Color backgroundColor;
+  List<ui.Image> labelIcons;
+  double iconSize;
 
   YAxisSettingFunction yAxisSettingFunction;
 
@@ -35,6 +38,8 @@ class RadarChartController extends PieRadarController<RadarChartPainter> {
     this.yAxis,
     this.backgroundColor,
     this.yAxisSettingFunction,
+    this.labelIcons,
+    this.iconSize,
     IMarker marker,
     Description description,
     XAxisSettingFunction xAxisSettingFunction,
@@ -129,7 +134,9 @@ class RadarChartController extends PieRadarController<RadarChartPainter> {
         drawWeb,
         skipWebLineCount,
         yAxis,
-        backgroundColor);
+        backgroundColor,
+        labelIcons,
+        iconSize);
   }
 
   @override

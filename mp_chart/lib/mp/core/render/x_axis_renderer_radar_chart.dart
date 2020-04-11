@@ -7,6 +7,8 @@ import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/painter/radar_chart_painter.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
+import 'package:mp_chart/mp/core/utils/canvas_utils.dart';
+import 'dart:ui' as ui;
 
 class XAxisRendererRadarChart extends XAxisRenderer {
   RadarChartPainter _painter;
@@ -64,6 +66,43 @@ class XAxisRendererRadarChart extends XAxisRenderer {
       MPPointF anchor, double angleDegrees, XAxisPosition position) {
     Utils.drawRadarXAxisValue(c, formattedLabel, x, y, axisLabelPaint, anchor,
         angleDegrees, position);
+  }
+
+  void renderAxisLabelIcons(Canvas c, List<ui.Image> icons, double iconSize){
+
+//    if (!xAxis.enabled || !xAxis.drawLabels) return;
+
+    axisLabelPaint = PainterUtils.create(
+        null, null, xAxis.textColor, xAxis.textSize,
+        fontWeight: xAxis.typeface?.fontWeight,
+        fontFamily: xAxis.typeface?.fontFamily);
+
+    double sliceangle = _painter.getSliceAngle();
+
+    // calculate the factor that is needed for transforming the value to
+    // pixels
+    double factor = _painter.getFactor();
+
+    MPPointF center = _painter.getCenterOffsets();
+    MPPointF pOut = MPPointF.getInstance1(0, 0);
+
+    for (int i = 0;
+    i < _painter.getData().getMaxEntryCountSet().getEntryCount();
+    i++) {
+
+      double angle = (sliceangle * i + _painter.getRotationAngle()) % 360;
+
+      Utils.getPosition(
+          center,
+          _painter.yAxis.axisRange * factor + xAxis.labelRotatedWidth / 2 + 10 /* R_add */,
+          angle,
+          pOut);
+
+      CanvasUtils.drawImage(
+          c, Offset(pOut.x, pOut.y), icons[i], Size(iconSize, iconSize), Paint());
+
+    }
+
   }
 
   /// XAxis LimitLines on RadarChart not yet supported.

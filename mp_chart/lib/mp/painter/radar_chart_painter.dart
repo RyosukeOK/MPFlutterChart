@@ -19,6 +19,7 @@ import 'package:mp_chart/mp/core/render/y_axis_renderer_radar_chart.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/painter/pie_redar_chart_painter.dart';
+import 'dart:ui' as ui;
 
 class RadarChartPainter extends PieRadarChartPainter<RadarData> {
   /// width of the main web lines
@@ -45,6 +46,10 @@ class RadarChartPainter extends PieRadarChartPainter<RadarData> {
   /// the object reprsenting the y-axis labels
   final YAxis _yAxis;
 
+  final List<ui.Image> _icons;
+
+  final double _iconSize;
+
   ////////////
   YAxisRendererRadarChart _yAxisRenderer;
   XAxisRendererRadarChart _xAxisRenderer;
@@ -62,6 +67,11 @@ class RadarChartPainter extends PieRadarChartPainter<RadarData> {
   int get skipWebLineCount => _skipWebLineCount;
 
   YAxis get yAxis => _yAxis;
+
+  List<ui.Image> get icons => _icons;
+
+  double get iconSize => _iconSize;
+
 
   RadarChartPainter(
       RadarData data,
@@ -96,7 +106,9 @@ class RadarChartPainter extends PieRadarChartPainter<RadarData> {
       bool drawWeb,
       int skipWebLineCount,
       YAxis yAxis,
-      Color backgroundColor)
+      Color backgroundColor,
+      List<ui.Image> icons,
+      double iconSize)
       : _webLineWidth = webLineWidth,
         _innerWebLineWidth = innerWebLineWidth,
         _webColor = webColor,
@@ -105,6 +117,8 @@ class RadarChartPainter extends PieRadarChartPainter<RadarData> {
         _drawWeb = drawWeb,
         _skipWebLineCount = skipWebLineCount,
         _yAxis = yAxis,
+        _icons = icons,
+        _iconSize = iconSize,
         super(
           data,
           animator,
@@ -168,7 +182,8 @@ class RadarChartPainter extends PieRadarChartPainter<RadarData> {
     if (xAxis.enabled)
       _xAxisRenderer.computeAxis(xAxis.axisMinimum, xAxis.axisMaximum, false);
 
-    _xAxisRenderer.renderAxisLabels(canvas);
+//    _xAxisRenderer.renderAxisLabels(canvas);
+    _xAxisRenderer.renderAxisLabelIcons(canvas, icons, iconSize);
 
     if (_drawWeb) renderer.drawExtras(canvas);
 
