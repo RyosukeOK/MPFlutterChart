@@ -181,16 +181,15 @@ class RadarChartRenderer extends LineRadarRenderer {
               dataSet.getValueTextColor2(j));
         }
 
-//        if (entry.mIcon != null && dataSet.isDrawIconsEnabled()) {
-        if (dataSet.isDrawIconsEnabled()) {
+        if (entry.mIcon != null && dataSet.isDrawIconsEnabled()) {
           Utils.getPosition(center, entry.y * factor * phaseY + iconsOffset.y,
               sliceangle * j * phaseX + _painter.getRotationAngle(), pIcon);
 
           //noinspection SuspiciousNameCombination
           pIcon.y += iconsOffset.x;
 
-          CanvasUtils.drawImage(c, Offset(pIcon.x, pIcon.y), entry.icons[j],
-              Size(entry.iconSize, 30), drawPaint);
+          CanvasUtils.drawImage(c, Offset(pIcon.x, pIcon.y), entry.mIcon,
+              Size(entry.iconSize, entry.iconSize), drawPaint);
         }
       }
 
@@ -236,11 +235,11 @@ class RadarChartRenderer extends LineRadarRenderer {
     _webPaint
       ..strokeWidth = _painter.webLineWidth
       ..color =
-          Color.fromARGB(_painter.webAlpha, color.red, color.green, color.blue);
+      Color.fromARGB(_painter.webAlpha, color.red, color.green, color.blue);
 
     final int xIncrements = 1 + _painter.skipWebLineCount;
     int maxEntryCount =
-        _painter.getData().getMaxEntryCountSet().getEntryCount();
+    _painter.getData().getMaxEntryCountSet().getEntryCount();
 
     MPPointF p = MPPointF.getInstance1(0, 0);
     for (int i = 0; i < maxEntryCount; i += xIncrements) {
@@ -256,7 +255,7 @@ class RadarChartRenderer extends LineRadarRenderer {
     _webPaint
       ..strokeWidth = _painter.innerWebLineWidth
       ..color =
-          Color.fromARGB(_painter.webAlpha, color.red, color.green, color.blue);
+      Color.fromARGB(_painter.webAlpha, color.red, color.green, color.blue);
 
     int labelCount = _painter.yAxis.entryCount;
 

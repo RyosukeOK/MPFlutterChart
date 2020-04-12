@@ -125,6 +125,9 @@ class OtherChartRadarState extends RadarActionState<OtherChartRadar> {
     var img3 = await ImageLoader.loadImage('assets/img/3.png');
     var img4 = await ImageLoader.loadImage('assets/img/4.png');
     var img5 = await ImageLoader.loadImage('assets/img/5.png');
+
+    var icons = [img1,img2,img3,img4,img5];
+
     double mul = 80;
     double min = 20;
     int cnt = 5;
@@ -135,7 +138,7 @@ class OtherChartRadarState extends RadarActionState<OtherChartRadar> {
     // the chart.
     for (int i = 0; i < cnt; i++) {
       double val1 = (random.nextDouble() * mul) + min;
-      entries1.add(RadarEntry(value: val1, icons: [img1,img2,img3,img4,img5], iconSize: 20));
+      entries1.add(RadarEntry(value: val1, icon: icons[i], iconSize: 20));
 
     }
 
